@@ -35,6 +35,7 @@ function Header({
   return (
     <header className="header">
 
+
       {/* ==================================================
           MENU BUTTON
           ================================================== */}
@@ -98,10 +99,22 @@ function Header({
         {user ? (
 
           <>
+            {/* Logged-in username */}
             <span className="header-username">
               {user.username}
             </span>
 
+
+            {/* Go to user's channel */}
+            <button
+              className="my-channel-button"
+              onClick={() => navigate("/my-channel")}
+            >
+              My Channel
+            </button>
+
+
+            {/* Logout */}
             <button
               className="logout-button"
               onClick={handleLogout}
@@ -112,6 +125,7 @@ function Header({
 
         ) : (
 
+          // Logged-out user
           <button
             className="sign-in-button"
             onClick={() => navigate("/login")}

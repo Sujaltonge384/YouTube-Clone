@@ -43,6 +43,12 @@ function App() {
           />
         </Route>
 
+         <Route 
+            path="/my-channel" 
+            element={<Channel />} >
+         </Route>     
+
+
 
         {/* ==================================================
             AUTHENTICATION PAGES
