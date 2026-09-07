@@ -1,51 +1,52 @@
+import { Link, NavLink } from "react-router-dom";
+
 function Sidebar({ isOpen }) {
   return (
     <aside className={`sidebar ${isOpen ? "sidebar-open" : ""}`}>
-
-      {/* Main navigation */}
       <nav>
+        <NavLink
+          to="/"
+          className={({ isActive }) =>
+            isActive
+              ? "sidebar-link active"
+              : "sidebar-link"
+          }
+        >
+          🏠 <span>Home</span>
+        </NavLink>
 
-        <a href="/">
-          🏠
-          <span>Home</span>
-        </a>
+        <Link to="/" className="sidebar-link">
+          🔥 <span>Trending</span>
+        </Link>
 
-        <a href="#">
-          🔥
-          <span>Trending</span>
-        </a>
-
-        <a href="#">
-          📺
-          <span>Subscriptions</span>
-        </a>
-
-        <hr />
-
-        <a href="#">
-          📚
-          <span>Library</span>
-        </a>
-
-        <a href="#">
-          🕘
-          <span>History</span>
-        </a>
-
-        <a href="#">
-          👍
-          <span>Liked videos</span>
-        </a>
+        <Link to="/" className="sidebar-link">
+          📺 <span>Subscriptions</span>
+        </Link>
 
         <hr />
 
-        <a href="#">
-          ⚙️
-          <span>Settings</span>
-        </a>
+        <Link to="/my-channel" className="sidebar-link">
+          👤 <span>Your Channel</span>
+        </Link>
 
+        <Link to="/" className="sidebar-link">
+          📚 <span>Library</span>
+        </Link>
+
+        <Link to="/" className="sidebar-link">
+          🕘 <span>History</span>
+        </Link>
+
+        <Link to="/" className="sidebar-link">
+          👍 <span>Liked videos</span>
+        </Link>
+
+        <hr />
+
+        <Link to="/" className="sidebar-link">
+          ⚙️ <span>Settings</span>
+        </Link>
       </nav>
-
     </aside>
   );
 }

@@ -1134,3 +1134,28 @@ a {
   border: none;
   display: block;
 }
+
+/* ======================================================
+   SIDEBAR NAVIGATION
+   ====================================================== */
+
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 11px 14px;
+  margin-bottom: 4px;
+  border-radius: 8px;
+  color: inherit;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+}
+
+.sidebar-link:hover {
+  background-color: #f2f2f2;
+}
+
+.sidebar-link.active {
+  background-color: #e8e8e8;
+  font-weight: 600;
+}
