@@ -1,4 +1,10 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+} from "react-router-dom";
+
+import Layout from "./components/Layout";
 
 import Home from "./pages/Home";
 import Login from "./pages/Login";
@@ -10,22 +16,44 @@ import Channel from "./pages/Channel";
 function App() {
   return (
     <BrowserRouter>
-      <Routes>
 
-        {/* Home page */}
-        <Route path="/" element={<Home />} />
+      <Layout>
 
-        {/* Authentication pages */}
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+        <Routes>
 
-        {/* Video player */}
-        <Route path="/watch/:id" element={<VideoPlayer />} />
+          {/* Home */}
+          <Route
+            path="/"
+            element={<Home />}
+          />
 
-        {/* Channel */}
-        <Route path="/channel/:id" element={<Channel />} />
+          {/* Authentication */}
+          <Route
+            path="/login"
+            element={<Login />}
+          />
 
-      </Routes>
+          <Route
+            path="/register"
+            element={<Register />}
+          />
+
+          {/* Video player */}
+          <Route
+            path="/watch/:id"
+            element={<VideoPlayer />}
+          />
+
+          {/* Channel */}
+          <Route
+            path="/channel/:id"
+            element={<Channel />}
+          />
+
+        </Routes>
+
+      </Layout>
+
     </BrowserRouter>
   );
 }
