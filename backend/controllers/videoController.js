@@ -139,3 +139,114 @@ export const getVideoById = async (req, res) => {
     });
   }
 };
+
+// ======================================================
+// UPDATE VIDEO
+// ======================================================
+
+export const updateVideo = async (req, res) => {
+  try {
+    const { title, description, videoUrl, thumbnailUrl, category } =
+      req.body;
+
+    // Find the video we want to update
+    const video = await Video.findById(req.params.id);
+
+    if (!video) {
+      return res.status(404).json({
+        message: "Video not found",
+      });
+    }
+
+    // Find the channel that owns this video
+    const channel = await Channel.findById(video.channel);
+
+    if (!channel) {
+      return res.status(404).json({
+        message: "Channel not found",
+      });
+    }
+
+    // Only the channel owner can update the video
+    if (channel.owner.toString() !== req.user.userId) {
+      return res.status(403).json({
+        message: "You can only update your own videos",
+      });
+    }
+
+    // Update only the fields that were provided
+    if (title !== undefined) video.title = title;
+    if (description !== undefined) video.description = description;
+    if (videoUrl !== undefined) video.videoUrl = videoUrl;
+    if (thumbnailUrl !== undefined) video.thumbnailUrl = thumbnailUrl;
+    if (category !== undefined) video.category = category;
+
+    // Save the updated video
+    await video.save();
+
+    res.status(200).json({
+      message: "Video updated successfully",
+      video,
+    });
+  } catch (error) {
+    console.error("Update video error:", error.message);
+
+    res.status(500).json({
+      message: "Server error while updating video",
+    });
+  }
+};
+
+
+// ======================================================
+// DELETE VIDEO
+// ======================================================
+
+export const deleteVideo = async (req, res) => {
+  try {
+    // Find the video
+    const video = await Video.findById(req.params.id);
+
+    if (!video) {
+      return res.status(404).json({
+        message: "Video not found",
+      });
+    }
+
+    // Find the channel that owns this video
+    const channel = await Channel.findById(video.channel);
+
+    if (!channel) {
+      return res.status(404).json({
+        message: "Channel not found",
+      });
+    }
+
+    // Only the channel owner can delete the video
+    if (channel.owner.toString() !== req.user.userId) {
+      return res.status(403).json({
+        message: "You can only delete your own videos",
+      });
+    }
+
+    // Delete the video from the videos collection
+    await Video.findByIdAndDelete(req.params.id);
+
+    // Remove the video ID from the channel's videos array
+    channel.videos = channel.videos.filter(
+      (videoId) => videoId.toString() !== req.params.id
+    );
+
+    await channel.save();
+
+    res.status(200).json({
+      message: "Video deleted successfully",
+    });
+  } catch (error) {
+    console.error("Delete video error:", error.message);
+
+    res.status(500).json({
+      message: "Server error while deleting video",
+    });
+  }
+};

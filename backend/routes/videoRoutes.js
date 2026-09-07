@@ -4,6 +4,8 @@ import {
   createVideo,
   getVideos,
   getVideoById,
+  updateVideo,
+  deleteVideo,
 } from "../controllers/videoController.js";
 
 import { protect } from "../middleware/authMiddleware.js";
@@ -11,17 +13,34 @@ import { protect } from "../middleware/authMiddleware.js";
 const router = express.Router();
 
 
-// Create a video
-// User must be logged in
+// ======================================================
+// CREATE
+// ======================================================
+
 router.post("/", protect, createVideo);
 
 
-// Get all videos
+// ======================================================
+// READ
+// ======================================================
+
 router.get("/", getVideos);
 
-
-// Get a single video
 router.get("/:id", getVideoById);
+
+
+// ======================================================
+// UPDATE
+// ======================================================
+
+router.put("/:id", protect, updateVideo);
+
+
+// ======================================================
+// DELETE
+// ======================================================
+
+router.delete("/:id", protect, deleteVideo);
 
 
 export default router;
