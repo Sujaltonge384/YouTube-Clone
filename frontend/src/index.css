@@ -341,3 +341,158 @@ a {
     gap: 20px;
   }
 }
+
+
+/* ======================================================
+   COMMENTS
+   ====================================================== */
+
+.comments-section {
+  margin-top: 32px;
+}
+
+.comments-section h2 {
+  font-size: 20px;
+  margin-bottom: 24px;
+}
+
+
+/* ======================================================
+   ADD COMMENT FORM
+   ====================================================== */
+
+.comment-form {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 30px;
+}
+
+.comment-form-content {
+  flex: 1;
+}
+
+.comment-form textarea {
+  width: 100%;
+  resize: vertical;
+  border: none;
+  border-bottom: 1px solid #ccc;
+  padding: 10px 0;
+  font-family: inherit;
+  font-size: 14px;
+  outline: none;
+}
+
+.comment-form textarea:focus {
+  border-bottom-color: #333;
+}
+
+.comment-form button {
+  margin-top: 10px;
+  padding: 9px 18px;
+  border-radius: 20px;
+  background: #0f0f0f;
+  color: #fff;
+}
+
+.comment-form button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+
+/* ======================================================
+   COMMENT ITEM
+   ====================================================== */
+
+.comment-item {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+.comment-avatar {
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  border-radius: 50%;
+  background: #e5e5e5;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-weight: bold;
+}
+
+.comment-content {
+  flex: 1;
+}
+
+.comment-username {
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 6px;
+}
+
+.comment-text {
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+
+/* ======================================================
+   COMMENT ACTIONS
+   ====================================================== */
+
+.comment-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.comment-actions button,
+.comment-edit-actions button {
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.comment-actions button:hover,
+.comment-edit-actions button:hover {
+  text-decoration: underline;
+}
+
+
+/* ======================================================
+   COMMENT EDIT
+   ====================================================== */
+
+.comment-edit-container textarea {
+  width: 100%;
+  resize: vertical;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-family: inherit;
+}
+
+.comment-edit-actions {
+  display: flex;
+  gap: 14px;
+  margin-top: 8px;
+}
+
+
+/* ======================================================
+   COMMENT MESSAGES
+   ====================================================== */
+
+.comment-error {
+  color: #d93025;
+  margin: 10px 0;
+  font-size: 14px;
+}
+
+.comment-login-message {
+  color: #606060;
+  margin-bottom: 24px;
+}
