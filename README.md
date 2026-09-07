@@ -1,108 +1,60 @@
-# 🎬 YouTube Clone
+# 🎬 YouTube Clone — MERN Stack
 
-### A Full-Stack YouTube Experience Built with MERN
+<p align="center">
+  A full-stack YouTube-inspired video streaming application built with the MERN stack.
+</p>
 
-A responsive YouTube Clone built from the ground up using **React, Node.js, Express.js, MongoDB, and JWT authentication**.
-
-The project recreates the core YouTube experience with video browsing, search, categories, authentication, channels, video management, comments, likes/dislikes, recommendations, and responsive design.
+<p align="center">
+  <strong>React</strong> •
+  <strong>Node.js</strong> •
+  <strong>Express.js</strong> •
+  <strong>MongoDB</strong> •
+  <strong>JWT</strong>
+</p>
 
 ---
 
-## ✨ Features
+## 📌 About The Project
+
+This project is a **full-stack YouTube Clone** developed using the **MERN Stack**.
+
+The application replicates the core YouTube experience, including:
+
+- 🎥 Video browsing
+- 🔎 Video title search
+- 🏷️ Category filtering
+- ▶️ Video playback
+- 🔐 User authentication
+- 📡 Channel creation
+- 🎬 Video management
+- 💬 Comment management
+- 👍 Like / dislike actions
+- 📱 Responsive design
+- 🗄️ MongoDB data persistence
+
+The project follows a structured frontend and backend architecture with REST APIs, JWT authentication, Mongoose models, and reusable React components.
+
+---
+
+# ✨ Features
 
 | Feature | Description |
 |---|---|
-| 🏠 **Home Page** | Browse videos in a responsive YouTube-style layout |
-| 🔎 **Search** | Search videos by title |
-| 🏷️ **Categories** | Filter videos by category |
-| 🔐 **Authentication** | Register, login and logout using JWT |
-| 📺 **Video Player** | Watch embedded YouTube videos |
-| 👍 **Likes / Dislikes** | Interact with videos |
-| 💬 **Comments** | Full comment CRUD functionality |
-| 📡 **Channels** | Create and view channels |
-| 🎥 **Video CRUD** | Upload, edit and delete channel videos |
-| 🖼️ **Channel Logos** | Display channel avatars |
-| 🎲 **Randomized Feed** | Videos are randomized on the Home page |
-| 📱 **Responsive UI** | Desktop, tablet and mobile support |
-
----
-
-# 🖥️ Screenshots
-
-## 🏠 Home Page
-
-![Home Page](screenshots/home.png)
-
-The Home page includes:
-
-- YouTube-style header
-- Sidebar navigation
-- Search bar
-- Category filters
-- Randomized video feed
-- Video thumbnails
-- Channel logos
-- View counts
-
----
-
-## 📺 Video Player
-
-![Video Player](screenshots/video-player.png)
-
-The video player page includes:
-
-- Embedded YouTube player
-- Video title
-- Channel information
-- Channel logo
-- View count
-- Description
-- Like / dislike buttons
-- Comments
-- Recommended videos
-
----
-
-## 📡 Channel Page
-
-![Channel Page](screenshots/channel.png)
-
-The channel page displays:
-
-- Channel banner
-- Channel logo
-- Channel name
-- Subscriber count
-- Channel description
-- Uploaded videos
-- Video management controls for the owner
-
----
-
-## 🔐 Authentication
-
-### Login
-
-![Login Page](screenshots/login.png)
-
-### Register
-
-![Register Page](screenshots/register.png)
-
-Users can create an account and securely authenticate using JWT.
-
----
-
-## 📱 Responsive Design
-
-![Mobile View](screenshots/mobile.png)
-
-The application adapts to:
-
-- 🖥️ Desktop
-- 💻 Tablet
-- 📱 Mobile
+| 🏠 Home Page | Displays videos in a YouTube-style responsive grid |
+| 🔎 Search | Search videos by title |
+| 🏷️ Categories | Filter videos by category |
+| 🔐 Authentication | Register and login using JWT |
+| 👤 User Profile | Displays authenticated user's information |
+| 📡 Channels | Create and view channels |
+| 🎥 Video CRUD | Create, update and delete channel videos |
+| ▶️ Video Player | Watch videos using embedded video URLs |
+| 👍 Like | Like videos |
+| 👎 Dislike | Dislike videos |
+| 💬 Comments | Full comment CRUD functionality |
+| 🖼️ Thumbnails | Video thumbnails stored as URLs |
+| 📱 Responsive UI | Desktop, tablet and mobile support |
+| 🗄️ MongoDB | Persistent application data |
+| 🔒 Authorization | Users can modify only their own content |
 
 ---
 
@@ -110,56 +62,63 @@ The application adapts to:
 
 ## Frontend
 
-![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
-![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)
-![React Router](https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=react-router&logoColor=white)
-![Axios](https://img.shields.io/badge/Axios-5A29E4?style=for-the-badge&logo=axios&logoColor=white)
+- ⚛️ React
+- ⚡ Vite
+- 🧭 React Router
+- 📡 Axios
+- 🎨 CSS
 
 ## Backend
 
-![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white)
-![Express](https://img.shields.io/badge/Express-000000?style=for-the-badge&logo=express&logoColor=white)
-![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white)
-![Mongoose](https://img.shields.io/badge/Mongoose-880000?style=for-the-badge&logo=mongoose&logoColor=white)
-![JWT](https://img.shields.io/badge/JWT-000000?style=for-the-badge&logo=jsonwebtokens&logoColor=white)
+- 🟢 Node.js
+- 🚂 Express.js
+- 🍃 Mongoose
+- 🔐 JSON Web Token
+- 🔒 bcryptjs
+- 🌐 CORS
+
+## Database
+
+- 🍃 MongoDB
 
 ---
 
-# 🧠 How It Works
-
-The application follows a standard full-stack architecture:
+# 🏗️ Application Architecture
 
 ```text
-                    ┌──────────────────┐
-                    │      React       │
-                    │    Frontend      │
-                    └────────┬─────────┘
-                             │
-                          Axios
-                             │
-                             ▼
-                    ┌──────────────────┐
-                    │     Express      │
-                    │      REST API    │
-                    └────────┬─────────┘
-                             │
-                     Controllers
-                             │
-                             ▼
-                    ┌──────────────────┐
-                    │     Mongoose     │
-                    │      Models      │
-                    └────────┬─────────┘
-                             │
-                             ▼
-                    ┌──────────────────┐
-                    │     MongoDB      │
-                    │     Database     │
-                    └──────────────────┘
+                    ┌─────────────────────┐
+                    │       React         │
+                    │      Frontend       │
+                    └──────────┬──────────┘
+                               │
+                             Axios
+                               │
+                               ▼
+                    ┌─────────────────────┐
+                    │      Express        │
+                    │       REST API      │
+                    └──────────┬──────────┘
+                               │
+                         Controllers
+                               │
+                               ▼
+                    ┌─────────────────────┐
+                    │      Mongoose       │
+                    │       Models        │
+                    └──────────┬──────────┘
+                               │
+                               ▼
+                    ┌─────────────────────┐
+                    │      MongoDB        │
+                    │      Database       │
+                    └─────────────────────┘
+```
 
+---
 
-## 📁 Project Structure
+# 📁 Project Structure
 
+```text
 youtube-clone/
 │
 ├── 📂 frontend/
@@ -243,49 +202,64 @@ youtube-clone/
 │
 ├── .gitignore
 └── README.md
+```
 
+---
 
-## 🔐 Authentication Flow
+# 🔐 Authentication
 
-## Authentication is implemented using JWT.
+Authentication is implemented using **JWT**.
 
-             Register
-                │
-                ▼
-          Password Hash
-             bcrypt
-                │
-                ▼
-          MongoDB User
-                │
-                ▼
-              Login
-                │
-                ▼
-           JWT Token
-                │
-                ▼
-        localStorage Token
-                │
-                ▼
-       Protected API Routes
+## Authentication Flow
 
-Protected requests use:
+```text
+                Register
+                   │
+                   ▼
+           Password Hashing
+               bcryptjs
+                   │
+                   ▼
+            MongoDB User
+                   │
+                   ▼
+                 Login
+                   │
+                   ▼
+              JWT Token
+                   │
+                   ▼
+            localStorage
+                   │
+                   ▼
+          Protected Requests
+                   │
+                   ▼
+        Authorization: Bearer
+```
 
+### Protected Request
+
+```http
 Authorization: Bearer <token>
+```
 
 The backend authentication middleware:
 
-Reads the Authorization header.
-Extracts the JWT token.
-Verifies the token.
-Gets the authenticated user's ID.
-Adds the user ID to the request.
-Allows the protected controller to continue.
-🗄️ Database Design
+1. Reads the `Authorization` header.
+2. Extracts the JWT token.
+3. Verifies the token.
+4. Gets the authenticated user's ID.
+5. Adds the user ID to the request.
+6. Allows the protected controller to continue.
 
-The application uses four main MongoDB collections:
+---
 
+# 🗄️ Database Design
+
+The application uses four main MongoDB collections.
+
+```text
 MongoDB
 │
 ├── 👤 users
@@ -295,7 +269,13 @@ MongoDB
 ├── 🎥 videos
 │
 └── 💬 comments
-👤 Users
+```
+
+---
+
+## 👤 Users
+
+```text
 username
 email
 password
@@ -303,10 +283,15 @@ avatar
 channels
 createdAt
 updatedAt
+```
 
-Passwords are hashed before being stored.
+Passwords are hashed before being stored in MongoDB.
 
-📡 Channels
+---
+
+## 📡 Channels
+
+```text
 channelName
 owner
 description
@@ -316,10 +301,15 @@ subscribers
 videos
 createdAt
 updatedAt
+```
 
-The owner field references a User.
+The `owner` field references a `User`.
 
-🎥 Videos
+---
+
+## 🎥 Videos
+
+```text
 title
 description
 videoUrl
@@ -333,115 +323,197 @@ dislikes
 uploadDate
 createdAt
 updatedAt
+```
 
-The channel field references a Channel.
+The `channel` field references a `Channel`.
 
-💬 Comments
+---
+
+## 💬 Comments
+
+```text
 text
 user
 video
 createdAt
 updatedAt
+```
 
-The user field references a User.
+The `user` field references a `User`.
 
-The video field references a Video.
+The `video` field references a `Video`.
 
-🔗 API Endpoints
-🔐 Authentication
-Method	Endpoint	Description
-POST	/api/auth/register	Register a user
-POST	/api/auth/login	Login a user
-👤 Users
-Method	Endpoint	Description
-GET	/api/users/me	Get current user
-📡 Channels
-Method	Endpoint	Description
-POST	/api/channels	Create channel
-GET	/api/channels/my-channel	Get logged-in user's channel
-GET	/api/channels/:id	Get channel
-🎥 Videos
-Method	Endpoint	Description
-GET	/api/videos	Get all videos
-GET	/api/videos/:id	Get a video
-POST	/api/videos	Create video
-PUT	/api/videos/:id	Update video
-DELETE	/api/videos/:id	Delete video
-POST	/api/videos/:id/like	Like video
-POST	/api/videos/:id/dislike	Dislike video
-💬 Comments
-Method	Endpoint	Description
-POST	/api/comments	Create comment
-GET	/api/comments/video/:videoId	Get video comments
-PUT	/api/comments/:id	Update comment
-DELETE	/api/comments/:id	Delete comment
-⚙️ Installation
-1️⃣ Clone the Repository
-git clone YOUR_GITHUB_REPOSITORY_URL
+---
+
+# 🔗 REST API
+
+## 🔐 Authentication
+
+| Method | Endpoint | Description |
+|---|---|---|
+| `POST` | `/api/auth/register` | Register a new user |
+| `POST` | `/api/auth/login` | Login user |
+
+---
+
+## 👤 Users
+
+| Method | Endpoint | Description |
+|---|---|---|
+| `GET` | `/api/users/me` | Get current authenticated user |
+
+---
+
+## 📡 Channels
+
+| Method | Endpoint | Description |
+|---|---|---|
+| `POST` | `/api/channels` | Create a channel |
+| `GET` | `/api/channels/my-channel` | Get logged-in user's channel |
+| `GET` | `/api/channels/:id` | Get channel by ID |
+
+---
+
+## 🎥 Videos
+
+| Method | Endpoint | Description |
+|---|---|---|
+| `GET` | `/api/videos` | Get all videos |
+| `GET` | `/api/videos/:id` | Get video by ID |
+| `POST` | `/api/videos` | Create a video |
+| `PUT` | `/api/videos/:id` | Update a video |
+| `DELETE` | `/api/videos/:id` | Delete a video |
+| `POST` | `/api/videos/:id/like` | Like a video |
+| `POST` | `/api/videos/:id/dislike` | Dislike a video |
+
+---
+
+## 💬 Comments
+
+| Method | Endpoint | Description |
+|---|---|---|
+| `POST` | `/api/comments` | Create comment |
+| `GET` | `/api/comments/video/:videoId` | Get video comments |
+| `PUT` | `/api/comments/:id` | Update comment |
+| `DELETE` | `/api/comments/:id` | Delete comment |
+
+---
+
+# ⚙️ Installation
+
+## 1️⃣ Clone the Repository
+
+```bash
+git clone https://github.com/Sujaltonge384/YouTube-Clone.git
 cd youtube-clone
-2️⃣ Backend Setup
+```
 
-Open a terminal:
+---
 
+# ⚙️ Backend Setup
+
+Open a terminal and run:
+
+```bash
 cd backend
+```
 
 Install dependencies:
 
+```bash
 npm install
+```
 
-Create a .env file:
+---
 
+## 🔐 Environment Variables
+
+Create a `.env` file inside the `backend` folder.
+
+```env
 PORT=5000
 MONGO_URI=your_mongodb_connection_string
 JWT_SECRET=your_secret_key
+```
 
-Start the backend:
+> ⚠️ Never commit your `.env` file to GitHub.
 
+---
+
+## ▶️ Start Backend
+
+```bash
 npm run dev
+```
 
-Backend:
+Backend server:
 
+```text
 http://localhost:5000
-3️⃣ Seed the Database
+```
 
-To create sample users, channels, videos and comments:
+---
 
+# 🌱 Seed the Database
+
+The project includes seed data for development and demonstration.
+
+Run:
+
+```bash
 npm run seed
+```
 
 The seed process creates:
 
-👤 Users
-📡 Channels
-🖼️ Channel avatars
-🖼️ Channel banners
-🎥 Videos
-🖼️ Video thumbnails
-💬 Comments
-📊 Random view counts
-👍 Random like counts
-👎 Random dislike counts
+- 👤 Users
+- 📡 Channels
+- 🖼️ Channel avatars
+- 🖼️ Channel banners
+- 🎥 Videos
+- 🖼️ Video thumbnails
+- 💬 Comments
+- 📊 Random view counts
+- 👍 Random like counts
+- 👎 Random dislike counts
 
-⚠️ Important: The seed script clears the existing users, channels, videos and comments before inserting the sample data.
+> ⚠️ **Important:** The seed script clears the existing users, channels, videos and comments before inserting the sample data.
 
-4️⃣ Frontend Setup
+---
+
+# ⚛️ Frontend Setup
 
 Open another terminal:
 
+```bash
 cd frontend
+```
 
 Install dependencies:
 
+```bash
 npm install
+```
 
 Start the frontend:
 
+```bash
 npm run dev
+```
 
 Frontend:
 
+```text
 http://localhost:5173
-🧪 Application Flow
-🔐 Authentication
+```
+
+---
+
+# 🧪 Application Flow
+
+## 🔐 Authentication
+
+```text
 Register
    ↓
 Login
@@ -449,7 +521,13 @@ Login
 JWT Token
    ↓
 Authenticated User
-📡 Channel
+```
+
+---
+
+## 📡 Channel
+
+```text
 Login
    ↓
 My Channel
@@ -457,7 +535,13 @@ My Channel
 Create Channel
    ↓
 Channel Page
-🎥 Video Management
+```
+
+---
+
+## 🎥 Video Management
+
+```text
 My Channel
    ↓
 Upload Video
@@ -471,7 +555,13 @@ Video Updated
 Delete Video
    ↓
 Video Removed
-💬 Comment Management
+```
+
+---
+
+## 💬 Comment Management
+
+```text
 Open Video
    ↓
 Add Comment
@@ -485,76 +575,124 @@ Comment Updated
 Delete Comment
    ↓
 Comment Removed
-🔎 Search
+```
+
+---
+
+# 🔎 Search
+
+The application supports searching videos by title.
+
+```text
 Search Bar
      ↓
 Search Video Titles
      ↓
 Matching Videos
+```
 
-Search is case-insensitive and works together with category filtering.
+Search is **case-insensitive** and works together with category filtering.
 
-🏷️ Category Filtering
+---
+
+# 🏷️ Category Filtering
+
+```text
 Click Category
       ↓
 Filter Videos
       ↓
 Display Matching Videos
+```
 
 Available categories:
 
-All
-Music
-Gaming
-Education
-Technology
-Sports
-Entertainment
-📱 Responsive Design
+- All
+- Music
+- Gaming
+- Education
+- Technology
+- Sports
+- Entertainment
+
+---
+
+# 📱 Responsive Design
 
 The interface adapts to different screen sizes.
 
-Desktop
-   │
-   ├── Full Sidebar
-   ├── Multi-column Video Grid
-   └── Video + Recommendation Layout
+## 🖥️ Desktop
 
-Tablet
-   │
-   ├── Compact Layout
-   └── Responsive Video Grid
+```text
+┌─────────────────────────────────────────────┐
+│ Header                                      │
+├────────────┬────────────────────────────────┤
+│ Sidebar    │ Video Grid                     │
+│            │                                │
+│            │ ┌────┐ ┌────┐ ┌────┐ ┌────┐ │
+│            │ │ 🎥 │ │ 🎥 │ │ 🎥 │ │ 🎥 │ │
+│            │ └────┘ └────┘ └────┘ └────┘ │
+└────────────┴────────────────────────────────┘
+```
 
-Mobile
-   │
-   ├── Compact Header
-   ├── Responsive Content
-   └── Stacked Video Layout
-🛡️ Security
+## 📱 Mobile
+
+```text
+┌─────────────────────┐
+│ Header              │
+├─────────────────────┤
+│                     │
+│ Video               │
+│                     │
+│ ┌─────────────────┐ │
+│ │     Thumbnail   │ │
+│ └─────────────────┘ │
+│ Title               │
+│ Channel             │
+│ Views               │
+│                     │
+└─────────────────────┘
+```
+
+The layout supports:
+
+- 🖥️ Desktop
+- 💻 Tablet
+- 📱 Mobile
+
+---
+
+# 🛡️ Security
 
 The application includes:
 
-🔒 Password hashing with bcryptjs
-🔑 JWT authentication
-🛡️ Protected API routes
-👤 User authorization
-📺 Video owner authorization
-💬 Comment owner authorization
-🔐 Environment variables
-🚫 .env excluded from Git
-🌱 Seed Data
+- 🔒 Password hashing with `bcryptjs`
+- 🔑 JWT authentication
+- 🛡️ Protected API routes
+- 👤 User authorization
+- 📺 Video owner authorization
+- 💬 Comment owner authorization
+- 🔐 Environment variables
+- 🚫 `.env` excluded from Git
+
+---
+
+# 🌱 Seed Data
 
 The project includes sample data for development and demonstration.
 
 The seed database contains:
 
+```text
 👤 Users
 📡 Channels
 🎥 Videos
 💬 Comments
+```
 
 Video metadata includes:
 
+```text
 YouTube Video ID
 Video URL
 Thumbnail URL
@@ -565,17 +703,21 @@ Views
 Likes
 Dislikes
 Upload Date
+```
 
-The application stores video metadata and external video URLs instead of storing large video files directly in MongoDB.
+The application stores **video metadata and external video URLs** instead of storing large video files directly inside MongoDB.
 
-🧩 Frontend Architecture
+---
 
-The frontend follows a component-based architecture.
+# 🧩 Frontend Architecture
 
-Components
+The frontend follows a **component-based architecture**.
+
+## Components
 
 Reusable components include:
 
+```text
 Header
 Sidebar
 Layout
@@ -584,33 +726,49 @@ VideoCard
 RecommendedVideoCard
 Comments
 CommentItem
-Pages
+```
+
+---
+
+## Pages
 
 Application pages include:
 
+```text
 Home
 Login
 Register
 VideoPlayer
 Channel
-Authentication Context
+```
+
+---
+
+## Authentication Context
 
 Authentication state is managed using:
 
+```text
 AuthContext
+```
 
 The context provides:
 
+```text
 user
 login()
 logout()
+```
 
 to the application.
 
-🧩 Backend Architecture
+---
+
+# 🧩 Backend Architecture
 
 The backend follows a structured architecture:
 
+```text
 Routes
    ↓
 Controllers
@@ -618,28 +776,33 @@ Controllers
 Models
    ↓
 MongoDB
-Routes
+```
+
+### Routes
 
 Handle HTTP requests and map them to controllers.
 
-Controllers
+### Controllers
 
-Contain the application and business logic.
+Contain application and business logic.
 
-Models
+### Models
 
 Define MongoDB schemas using Mongoose.
 
-Middleware
+### Middleware
 
 Handles authentication and authorization.
 
-🌳 Git Development
+---
 
-The project was developed using meaningful feature-based Git commits.
+# 🌳 Git Development
+
+The project was developed using meaningful, feature-based Git commits.
 
 Examples:
 
+```text
 chore: initialize YouTube clone project
 
 chore: initialize React frontend with Vite
@@ -671,100 +834,175 @@ feat: add video category filters
 feat: add channel navigation
 
 feat: finalize video data, channel logos, and randomized home
+```
 
-The project uses separate meaningful commits for frontend and backend features.
+The project uses separate meaningful commits for frontend and backend development.
 
-📋 Requirements Checklist
-Area	Status
-🏠 Home Page	✅
-📺 YouTube-style Header	✅
-📂 Sidebar	✅
-🎥 Video Grid	✅
-🖼️ Video Thumbnails	✅
-🔎 Search by Title	✅
-🏷️ Category Filters	✅
-🔐 Registration	✅
-🔑 Login	✅
-🚪 Logout	✅
-🛡️ JWT Authentication	✅
-▶️ Video Player	✅
-👍 Like	✅
-👎 Dislike	✅
-💬 Comment CRUD	✅
-📡 Channel Creation	✅
-📡 Channel Page	✅
-🖼️ Channel Logos	✅
-🖼️ Channel Banner	✅
-🎥 Video CRUD	✅
-🎲 Randomized Home	✅
-📱 Responsive Design	✅
-🗄️ MongoDB	✅
-🔗 REST APIs	✅
-🌳 Git Version Control	✅
-📖 Documentation	✅
-🔮 Future Improvements
+---
+
+# 📋 Requirements Checklist
+
+| Area | Status |
+|---|:---:|
+| 🏠 Home Page | ✅ |
+| 📺 YouTube-style Header | ✅ |
+| 📂 Sidebar | ✅ |
+| 🎥 Video Grid | ✅ |
+| 🖼️ Video Thumbnails | ✅ |
+| 🔎 Search by Title | ✅ |
+| 🏷️ Category Filters | ✅ |
+| 🔐 Registration | ✅ |
+| 🔑 Login | ✅ |
+| 🚪 Logout | ✅ |
+| 🛡️ JWT Authentication | ✅ |
+| ▶️ Video Player | ✅ |
+| 👍 Like | ✅ |
+| 👎 Dislike | ✅ |
+| 💬 Comment CRUD | ✅ |
+| 📡 Channel Creation | ✅ |
+| 📡 Channel Page | ✅ |
+| 🖼️ Channel Logos | ✅ |
+| 🖼️ Channel Banner | ✅ |
+| 🎥 Video CRUD | ✅ |
+| 🎲 Randomized Home | ✅ |
+| 📱 Responsive Design | ✅ |
+| 🗄️ MongoDB | ✅ |
+| 🔗 REST APIs | ✅ |
+| 🌳 Git Version Control | ✅ |
+| 📖 Documentation | ✅ |
+
+---
+
+# 🔮 Future Improvements
 
 Possible future improvements include:
 
-🔔 Notifications
-📡 Subscribe / Unsubscribe
-❤️ Per-user likes and dislikes
-📜 Watch history
-📂 Playlists
-🔥 Trending videos
-💬 Nested comments
-☁️ Cloud video uploads
-🤖 Advanced recommendation system
-🌙 Dark mode
-♾️ Infinite scrolling
-📡 YouTube Data API integration
-⚠️ Disclaimer
+- 🔔 Notifications
+- 📡 Subscribe / Unsubscribe
+- ❤️ Per-user likes and dislikes
+- 📜 Watch history
+- 📂 Playlists
+- 🔥 Trending videos
+- 💬 Nested comments
+- ☁️ Cloud video uploads
+- 🤖 Advanced recommendation system
+- 🌙 Dark mode
+- ♾️ Infinite scrolling
+- 📡 YouTube Data API integration
 
-This project is created for educational and demonstration purposes.
+---
 
-It is not affiliated with, sponsored by, or endorsed by YouTube or Google.
+# ⚠️ Disclaimer
 
-Videos are displayed using YouTube embeds and publicly available thumbnail URLs.
+This project is created for **educational and demonstration purposes**.
 
-👨‍💻 Author
-Sujal
+It is not affiliated with, sponsored by, or endorsed by **YouTube or Google**.
 
-A full-stack MERN YouTube Clone project created to demonstrate practical frontend and backend development skills.
+Videos are displayed using external video embeds and publicly available thumbnail URLs.
 
-Built With
-React
-Vite
-React Router
-Axios
-Node.js
-Express.js
-MongoDB
-Mongoose
-JWT
-bcryptjs
-CSS
-⭐ Project Highlights
-                 🎬 YouTube Clone
-                        │
-          ┌─────────────┴─────────────┐
-          │                           │
-      🎨 Frontend                 ⚙️ Backend
-          │                           │
-        React                      Express
-          │                           │
-        Vite                      Node.js
-          │                           │
-       Axios                         JWT
-          │                           │
-          └─────────────┬─────────────┘
-                        │
-                     MongoDB
-                        │
-             ┌──────────┼──────────┐
-             │          │          │
-           Users      Videos    Channels
-                                   │
-                               Comments
-❤️ Built with the MERN Stack
+---
 
-React + Node.js + Express + MongoDB
+# 👨‍💻 Author
+
+## Sujal
+
+A full-stack MERN YouTube Clone project created to demonstrate practical:
+
+- Frontend development
+- Backend development
+- REST API development
+- Database integration
+- Authentication
+- Authorization
+- Responsive UI development
+- Git and GitHub workflow
+
+---
+
+# 🧰 Built With
+
+<p align="center">
+
+⚛️ React  
+⚡ Vite  
+🧭 React Router  
+📡 Axios  
+🟢 Node.js  
+🚂 Express.js  
+🍃 MongoDB  
+🦫 Mongoose  
+🔐 JWT  
+🔒 bcryptjs  
+🎨 CSS
+
+</p>
+
+---
+
+# ⭐ Project Highlights
+
+```text
+                    🎬 YOUTUBE CLONE
+                           │
+              ┌────────────┴────────────┐
+              │                         │
+         🎨 FRONTEND                ⚙️ BACKEND
+              │                         │
+            React                    Express
+              │                         │
+            Vite                    Node.js
+              │                         │
+           Axios                      JWT
+              │                         │
+              └────────────┬────────────┘
+                           │
+                        MongoDB
+                           │
+             ┌─────────────┼─────────────┐
+             │             │             │
+           👤 Users     🎥 Videos    📡 Channels
+                                         │
+                                     💬 Comments
+```
+
+---
+
+# ❤️ Built with the MERN Stack
+
+<p align="center">
+
+**React + Node.js + Express + MongoDB**
+
+</p>
+
+---
+
+<p align="center">
+  ⭐ If you found this project useful, consider giving it a star!
+</p>
+
+---
+
+## Screenshots
+
+# Home Page
+<img width="1917" height="978" alt="image" src="https://github.com/user-attachments/assets/1d668bfe-4239-4d01-a054-109b0e526d3a" />
+
+# Register page
+<img width="1917" height="997" alt="image" src="https://github.com/user-attachments/assets/edc05cd2-2cc0-4404-9b5e-a6b33b3431f2" />
+
+# login page
+<img width="1917" height="982" alt="image" src="https://github.com/user-attachments/assets/1bc2fd0a-4442-4833-a7e8-29abbd4cbf5c" />
+
+# Create Channel page
+<img width="1917" height="952" alt="image" src="https://github.com/user-attachments/assets/de17e448-38b7-4e9e-a2c2-603626db3fba" />
+
+
+# myChannel page
+<img width="1913" height="977" alt="image" src="https://github.com/user-attachments/assets/4e41ba2b-8723-42d5-9c09-477a22e8e0ba" />
+
+# Channel page
+<img width="1917" height="992" alt="image" src="https://github.com/user-attachments/assets/fe4c712d-9887-4c32-86b1-3bcaf31ab92f" />
+
+# uplode video 
+<img width="1915" height="986" alt="image" src="https://github.com/user-attachments/assets/8d201b4a-b341-44da-9fdf-2ff88db750a6" />
