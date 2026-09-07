@@ -15,7 +15,7 @@ function Channel() {
 
 
   // ======================================================
-  // STATE
+  // CHANNEL STATE
   // ======================================================
 
   // Stores channel information
@@ -30,8 +30,12 @@ function Channel() {
   // Controls the create channel form
   const [showCreateForm, setShowCreateForm] = useState(false);
 
-  // Controls the add video form
+  // Controls the video form
   const [showVideoForm, setShowVideoForm] = useState(false);
+
+  // Stores the ID of the video currently being edited
+  // null means we are adding a new video.
+  const [editingVideoId, setEditingVideoId] = useState(null);
 
 
   // ======================================================
@@ -87,8 +91,8 @@ function Channel() {
 
         if (!id) {
 
-          // The interceptor automatically adds
-          // the JWT token to this protected request.
+          // JWT is automatically attached by
+          // the Axios interceptor.
           response = await api.get(
             "/channels/my-channel"
           );
@@ -119,7 +123,7 @@ function Channel() {
         );
 
 
-        // A 404 on /my-channel means the user
+        // A 404 means the logged-in user
         // does not have a channel yet.
         if (
           !id &&
@@ -147,11 +151,12 @@ function Channel() {
     };
 
 
-    // Only try to fetch "my channel"
-    // when the user is logged in.
+    // /my-channel is protected,
+    // so the user must be logged in.
     if (!id && !user) {
 
       setLoading(false);
+
       setError(
         "Please sign in to access your channel."
       );
@@ -207,13 +212,13 @@ function Channel() {
       setShowCreateForm(false);
 
 
-      // Clear the form
+      // Clear channel form
       setChannelName("");
       setChannelDescription("");
       setChannelBanner("");
 
 
-      // Open the newly created channel
+      // Navigate to the newly created channel
       navigate(
         `/channel/${newChannel._id}`
       );
@@ -232,6 +237,22 @@ function Channel() {
       );
 
     }
+
+  };
+
+
+  // ======================================================
+  // RESET VIDEO FORM
+  // ======================================================
+
+  const resetVideoForm = () => {
+
+    setVideoTitle("");
+    setVideoDescription("");
+    setVideoUrl("");
+    setThumbnailUrl("");
+    setVideoCategory("Technology");
+    setEditingVideoId(null);
 
   };
 
@@ -271,8 +292,7 @@ function Channel() {
       );
 
 
-      // Add the newly created video
-      // to the beginning of the channel videos.
+      // Add the new video to local state.
       setChannel((previousChannel) => ({
         ...previousChannel,
 
@@ -284,16 +304,12 @@ function Channel() {
       }));
 
 
-      // Hide the form
+      // Close the form
       setShowVideoForm(false);
 
 
       // Clear the form
-      setVideoTitle("");
-      setVideoDescription("");
-      setVideoUrl("");
-      setThumbnailUrl("");
-      setVideoCategory("Technology");
+      resetVideoForm();
 
     } catch (error) {
 
@@ -309,6 +325,187 @@ function Channel() {
       );
 
     }
+
+  };
+
+
+  // ======================================================
+  // START EDITING VIDEO
+  // ======================================================
+
+  const handleEditVideo = (video) => {
+
+    // Store the video ID so we know which
+    // video needs to be updated.
+    setEditingVideoId(video._id);
+
+
+    // Fill the form with the video's
+    // current information.
+    setVideoTitle(video.title);
+
+    setVideoDescription(
+      video.description
+    );
+
+    setVideoUrl(video.videoUrl);
+
+    setThumbnailUrl(
+      video.thumbnailUrl
+    );
+
+    setVideoCategory(
+      video.category
+    );
+
+
+    // Open the video form
+    setShowVideoForm(true);
+
+
+    // Clear previous error
+    setError("");
+
+  };
+
+
+  // ======================================================
+  // UPDATE VIDEO
+  // ======================================================
+
+  const handleUpdateVideo = async (event) => {
+
+    event.preventDefault();
+
+
+    if (!editingVideoId) {
+      return;
+    }
+
+
+    try {
+
+      setError("");
+
+
+      const response = await api.put(
+        `/videos/${editingVideoId}`,
+        {
+          title: videoTitle,
+          description: videoDescription,
+          videoUrl,
+          thumbnailUrl,
+          category: videoCategory,
+        }
+      );
+
+
+      // Replace the old video with
+      // the updated video.
+      setChannel((previousChannel) => ({
+        ...previousChannel,
+
+        videos: previousChannel.videos.map(
+          (video) =>
+            video._id === editingVideoId
+              ? response.data.video
+              : video
+        ),
+
+      }));
+
+
+      // Close the form
+      setShowVideoForm(false);
+
+
+      // Clear the form
+      resetVideoForm();
+
+    } catch (error) {
+
+      console.error(
+        "Update video error:",
+        error
+      );
+
+
+      setError(
+        error.response?.data?.message ||
+        "Unable to update video."
+      );
+
+    }
+
+  };
+
+
+  // ======================================================
+  // DELETE VIDEO
+  // ======================================================
+
+  const handleDeleteVideo = async (videoId) => {
+
+    const confirmed = window.confirm(
+      "Are you sure you want to delete this video?"
+    );
+
+
+    if (!confirmed) {
+      return;
+    }
+
+
+    try {
+
+      setError("");
+
+
+      await api.delete(
+        `/videos/${videoId}`
+      );
+
+
+      // Remove the deleted video
+      // from the channel state.
+      setChannel((previousChannel) => ({
+        ...previousChannel,
+
+        videos: previousChannel.videos.filter(
+          (video) => video._id !== videoId
+        ),
+
+      }));
+
+    } catch (error) {
+
+      console.error(
+        "Delete video error:",
+        error
+      );
+
+
+      setError(
+        error.response?.data?.message ||
+        "Unable to delete video."
+      );
+
+    }
+
+  };
+
+
+  // ======================================================
+  // CANCEL VIDEO FORM
+  // ======================================================
+
+  const handleCancelVideoForm = () => {
+
+    setShowVideoForm(false);
+
+    resetVideoForm();
+
+    setError("");
 
   };
 
@@ -392,7 +589,9 @@ function Channel() {
               placeholder="Channel name"
               value={channelName}
               onChange={(event) => {
-                setChannelName(event.target.value);
+                setChannelName(
+                  event.target.value
+                );
               }}
               minLength="3"
               maxLength="100"
@@ -414,7 +613,7 @@ function Channel() {
             />
 
 
-            {/* Optional banner */}
+            {/* Optional channel banner */}
             <input
               type="url"
               placeholder="Channel banner URL (optional)"
@@ -449,9 +648,7 @@ function Channel() {
 
     return (
       <div className="page-message">
-
         <p>{error}</p>
-
       </div>
     );
 
@@ -506,9 +703,11 @@ function Channel() {
       <div className="channel-header">
 
         <div className="channel-avatar">
+
           {channel?.channelName
             ?.charAt(0)
             .toUpperCase() || "C"}
+
         </div>
 
 
@@ -517,6 +716,7 @@ function Channel() {
           <h1>
             {channel?.channelName}
           </h1>
+
 
           <p>
             {channel?.subscribers || 0}
@@ -546,10 +746,17 @@ function Channel() {
 
           <button
             onClick={() => {
-              setShowVideoForm(
-                (previousState) =>
-                  !previousState
-              );
+
+              if (showVideoForm) {
+
+                handleCancelVideoForm();
+
+              } else {
+
+                setShowVideoForm(true);
+
+              }
+
             }}
           >
             {showVideoForm
@@ -574,18 +781,24 @@ function Channel() {
 
 
       {/* ==================================================
-          ADD VIDEO FORM
+          ADD / EDIT VIDEO FORM
           ================================================== */}
 
       {showVideoForm && isOwner && (
 
         <form
           className="video-form"
-          onSubmit={handleAddVideo}
+          onSubmit={
+            editingVideoId
+              ? handleUpdateVideo
+              : handleAddVideo
+          }
         >
 
           <h2>
-            Add Video
+            {editingVideoId
+              ? "Edit Video"
+              : "Add Video"}
           </h2>
 
 
@@ -595,7 +808,9 @@ function Channel() {
             placeholder="Video title"
             value={videoTitle}
             onChange={(event) => {
-              setVideoTitle(event.target.value);
+              setVideoTitle(
+                event.target.value
+              );
             }}
             minLength="3"
             maxLength="150"
@@ -624,7 +839,9 @@ function Channel() {
             placeholder="Video embed URL"
             value={videoUrl}
             onChange={(event) => {
-              setVideoUrl(event.target.value);
+              setVideoUrl(
+                event.target.value
+              );
             }}
             required
           />
@@ -644,7 +861,7 @@ function Channel() {
           />
 
 
-          {/* Category */}
+          {/* Video category */}
           <select
             value={videoCategory}
             onChange={(event) => {
@@ -681,9 +898,25 @@ function Channel() {
           </select>
 
 
+          {/* Submit button */}
           <button type="submit">
-            Add Video
+            {editingVideoId
+              ? "Update Video"
+              : "Add Video"}
           </button>
+
+
+          {/* Cancel edit button */}
+          {editingVideoId && (
+
+            <button
+              type="button"
+              onClick={handleCancelVideoForm}
+            >
+              Cancel
+            </button>
+
+          )}
 
         </form>
 
@@ -713,10 +946,45 @@ function Channel() {
 
             {channel?.videos?.map((video) => (
 
-              <VideoCard
+              <div
                 key={video._id}
-                video={video}
-              />
+                className="channel-video-item"
+              >
+
+                <VideoCard
+                  video={video}
+                />
+
+
+                {/* Owner controls */}
+                {isOwner && (
+
+                  <div className="video-owner-actions">
+
+                    <button
+                      onClick={() => {
+                        handleEditVideo(video);
+                      }}
+                    >
+                      Edit
+                    </button>
+
+
+                    <button
+                      onClick={() => {
+                        handleDeleteVideo(
+                          video._id
+                        );
+                      }}
+                    >
+                      Delete
+                    </button>
+
+                  </div>
+
+                )}
+
+              </div>
 
             ))}
 

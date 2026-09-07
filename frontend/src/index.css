@@ -835,3 +835,29 @@ a {
   font-size: 14px;
   font-weight: 500;
 }
+
+/* ======================================================
+   CHANNEL VIDEO OWNER ACTIONS
+   ====================================================== */
+
+.channel-video-item {
+  min-width: 0;
+}
+
+.video-owner-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.video-owner-actions button {
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 7px 14px;
+  background: #fff;
+  cursor: pointer;
+}
+
+.video-owner-actions button:hover {
+  background: #f2f2f2;
+}
