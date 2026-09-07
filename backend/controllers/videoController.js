@@ -119,8 +119,14 @@ export const getVideos = async (req, res) => {
 export const getVideoById = async (req, res) => {
   try {
     const video = await Video.findById(req.params.id)
-      .populate("channel", "channelName channelBanner description")
-      .populate("uploader", "username avatar");
+      .populate(
+        "channel",
+        "channelName channelBanner description"
+      )
+      .populate(
+        "uploader",
+        "username avatar"
+      );
 
     if (!video) {
       return res.status(404).json({
@@ -128,11 +134,20 @@ export const getVideoById = async (req, res) => {
       });
     }
 
+    // Increase the view count when the video is opened.
+    video.views += 1;
+
+    await video.save();
+
     res.status(200).json({
       video,
     });
+
   } catch (error) {
-    console.error("Get video error:", error.message);
+    console.error(
+      "Get video error:",
+      error.message
+    );
 
     res.status(500).json({
       message: "Server error while fetching video",
