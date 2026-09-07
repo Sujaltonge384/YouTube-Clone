@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import Video from "../models/Video.js";
 import Channel from "../models/Channel.js";
+import Reaction from "../models/Reaction.js";
 
 
 // ======================================================
@@ -272,7 +273,9 @@ export const deleteVideo = async (req, res) => {
 
 export const likeVideo = async (req, res) => {
   try {
-    const video = await Video.findById(req.params.id);
+    const { id } = req.params;
+
+    const video = await Video.findById(id);
 
     if (!video) {
       return res.status(404).json({
@@ -280,12 +283,43 @@ export const likeVideo = async (req, res) => {
       });
     }
 
-    video.likes += 1;
+    const existingReaction = await Reaction.findOne({
+      user: req.user.userId,
+      video: id,
+    });
+
+    // If the user already liked the video, remove the like.
+    if (existingReaction?.type === "like") {
+      await Reaction.deleteOne({
+        _id: existingReaction._id,
+      });
+
+      video.likes = Math.max(0, video.likes - 1);
+    }
+
+    // If the user disliked it, switch to like.
+    else if (existingReaction?.type === "dislike") {
+      existingReaction.type = "like";
+      await existingReaction.save();
+
+      video.dislikes = Math.max(0, video.dislikes - 1);
+      video.likes += 1;
+    }
+
+    // No existing reaction, create a like.
+    else {
+      await Reaction.create({
+        user: req.user.userId,
+        video: id,
+        type: "like",
+      });
+
+      video.likes += 1;
+    }
 
     await video.save();
 
     res.status(200).json({
-      message: "Video liked successfully",
       likes: video.likes,
       dislikes: video.dislikes,
     });
@@ -293,11 +327,10 @@ export const likeVideo = async (req, res) => {
     console.error("Like video error:", error.message);
 
     res.status(500).json({
-      message: "Server error while liking video",
+      message: "Unable to like video",
     });
   }
 };
-
 
 // ======================================================
 // DISLIKE VIDEO
@@ -305,7 +338,9 @@ export const likeVideo = async (req, res) => {
 
 export const dislikeVideo = async (req, res) => {
   try {
-    const video = await Video.findById(req.params.id);
+    const { id } = req.params;
+
+    const video = await Video.findById(id);
 
     if (!video) {
       return res.status(404).json({
@@ -313,23 +348,51 @@ export const dislikeVideo = async (req, res) => {
       });
     }
 
-    video.dislikes += 1;
+    const existingReaction = await Reaction.findOne({
+      user: req.user.userId,
+      video: id,
+    });
+
+    // If the user already disliked the video, remove the dislike.
+    if (existingReaction?.type === "dislike") {
+      await Reaction.deleteOne({
+        _id: existingReaction._id,
+      });
+
+      video.dislikes = Math.max(0, video.dislikes - 1);
+    }
+
+    // If the user liked it, switch to dislike.
+    else if (existingReaction?.type === "like") {
+      existingReaction.type = "dislike";
+      await existingReaction.save();
+
+      video.likes = Math.max(0, video.likes - 1);
+      video.dislikes += 1;
+    }
+
+    // No existing reaction, create a dislike.
+    else {
+      await Reaction.create({
+        user: req.user.userId,
+        video: id,
+        type: "dislike",
+      });
+
+      video.dislikes += 1;
+    }
 
     await video.save();
 
     res.status(200).json({
-      message: "Video disliked successfully",
       likes: video.likes,
       dislikes: video.dislikes,
     });
   } catch (error) {
-    console.error(
-      "Dislike video error:",
-      error.message
-    );
+    console.error("Dislike video error:", error.message);
 
     res.status(500).json({
-      message: "Server error while disliking video",
+      message: "Unable to dislike video",
     });
   }
 };
