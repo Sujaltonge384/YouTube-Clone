@@ -5,6 +5,8 @@ import {
 } from "react-router-dom";
 
 import Layout from "./components/Layout";
+import AuthLayout from "./components/AuthLayout";
+
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -16,17 +18,39 @@ function App() {
   return (
     <BrowserRouter>
 
-      <Layout>
+      <Routes>
 
-        <Routes>
+        {/* ==================================================
+            PUBLIC APPLICATION PAGES
+            ================================================== */}
 
-          {/* Home */}
+        <Route
+          element={<Layout />}
+        >
           <Route
             path="/"
             element={<Home />}
           />
 
-          {/* Authentication */}
+          <Route
+            path="/watch/:id"
+            element={<VideoPlayer />}
+          />
+
+          <Route
+            path="/channel/:id"
+            element={<Channel />}
+          />
+        </Route>
+
+
+        {/* ==================================================
+            AUTHENTICATION PAGES
+            ================================================== */}
+
+        <Route
+          element={<AuthLayout />}
+        >
           <Route
             path="/login"
             element={<Login />}
@@ -36,22 +60,9 @@ function App() {
             path="/register"
             element={<Register />}
           />
+        </Route>
 
-          {/* Video player */}
-          <Route
-            path="/watch/:id"
-            element={<VideoPlayer />}
-          />
-
-          {/* Channel */}
-          <Route
-            path="/channel/:id"
-            element={<Channel />}
-          />
-
-        </Routes>
-
-      </Layout>
+      </Routes>
 
     </BrowserRouter>
   );

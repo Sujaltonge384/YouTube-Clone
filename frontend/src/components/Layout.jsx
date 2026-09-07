@@ -1,16 +1,17 @@
 import { useState } from "react";
+import { Outlet } from "react-router-dom";
 
 import Header from "./Header";
 import Sidebar from "./Sidebar";
 
 
-function Layout({ children }) {
+function Layout() {
 
-  // Controls whether the sidebar is visible
+  // Controls whether the sidebar is open
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
 
-  // Toggle sidebar when hamburger button is clicked
+  // Toggle sidebar
   const handleMenuClick = () => {
     setIsSidebarOpen((previousState) => !previousState);
   };
@@ -19,21 +20,33 @@ function Layout({ children }) {
   return (
     <div className="app-layout">
 
-      {/* Header stays at the top */}
-      <Header onMenuClick={handleMenuClick} />
+      {/* Header */}
+      <Header
+        onMenuClick={handleMenuClick}
+      />
+
 
       <div className="page-layout">
 
         {/* Sidebar */}
-        <Sidebar isOpen={isSidebarOpen} />
+        <Sidebar
+          isOpen={isSidebarOpen}
+        />
 
-        {/* Current page */}
+
+        {/* Current route/page */}
         <main
           className={`main-content ${
-            isSidebarOpen ? "with-sidebar" : "full-width"
+            isSidebarOpen
+              ? "with-sidebar"
+              : "full-width"
           }`}
         >
-          {children}
+
+          {/* React Router renders Home,
+              VideoPlayer, Channel, etc. here */}
+          <Outlet />
+
         </main>
 
       </div>
