@@ -2,52 +2,97 @@ import { useState } from "react";
 
 import api from "../services/api";
 
-
 function CommentItem({
   comment,
   currentUser,
   onCommentUpdated,
   onCommentDeleted,
 }) {
+  // ======================================================
+  // STATE
+  // ======================================================
 
-  // Controls whether this comment is currently being edited
   const [isEditing, setIsEditing] = useState(false);
+  const [editText, setEditText] = useState(
+    comment.text
+  );
 
-  // Stores the edited comment text
-  const [editText, setEditText] = useState(comment.text);
-
-  // Used to display errors
   const [error, setError] = useState("");
 
+  // ======================================================
+  // USER INFORMATION
+  // ======================================================
+
+  const commentUser =
+    comment.user &&
+    typeof comment.user === "object"
+      ? comment.user
+      : null;
+
+  const username =
+    commentUser?.username ||
+    "Unknown user";
+
+  const avatar =
+    commentUser?.avatar || "";
+
+  // ======================================================
+  // OWNER CHECK
+  // ======================================================
+
+  const currentUserId =
+    currentUser?.id ||
+    currentUser?._id;
+
+  const commentUserId =
+    commentUser?._id ||
+    comment.user;
+
+  const isOwner =
+    Boolean(currentUserId) &&
+    Boolean(commentUserId) &&
+    String(currentUserId) ===
+      String(commentUserId);
 
   // ======================================================
   // UPDATE COMMENT
   // ======================================================
 
   const handleUpdate = async () => {
+    if (!editText.trim()) {
+      setError(
+        "Comment cannot be empty."
+      );
+      return;
+    }
+
     try {
       setError("");
 
-      // JWT is automatically added by the Axios interceptor
-      const response = await api.put(`/comments/${comment._id}`, {
-        text: editText,
-      });
+      const response = await api.put(
+        `/comments/${comment._id}`,
+        {
+          text: editText.trim(),
+        }
+      );
 
-      // Send updated comment back to parent component
-      onCommentUpdated(response.data.comment);
+      onCommentUpdated(
+        response.data.comment
+      );
 
       setIsEditing(false);
-
     } catch (error) {
-      console.error("Update comment error:", error);
+      console.error(
+        "Update comment error:",
+        error
+      );
 
       setError(
         error.response?.data?.message ||
-        "Unable to update comment"
+          "Unable to update comment."
       );
     }
   };
-
 
   // ======================================================
   // DELETE COMMENT
@@ -65,66 +110,107 @@ function CommentItem({
     try {
       setError("");
 
-      // JWT is automatically added by the Axios interceptor
-      await api.delete(`/comments/${comment._id}`);
+      await api.delete(
+        `/comments/${comment._id}`
+      );
 
-      // Tell parent that this comment was deleted
       onCommentDeleted(comment._id);
-
     } catch (error) {
-      console.error("Delete comment error:", error);
+      console.error(
+        "Delete comment error:",
+        error
+      );
 
       setError(
         error.response?.data?.message ||
-        "Unable to delete comment"
+          "Unable to delete comment."
       );
     }
   };
 
+  // ======================================================
+  // AVATAR LETTER
+  // ======================================================
+
+  const avatarLetter =
+    username
+      ?.charAt(0)
+      .toUpperCase() || "U";
 
   // ======================================================
-  // CHECK COMMENT OWNER
+  // RENDER
   // ======================================================
-
-  const isOwner =
-    currentUser &&
-    comment.user?._id === currentUser.id;
-
 
   return (
     <article className="comment-item">
 
+      {/* ==================================================
+          AVATAR
+          ================================================== */}
+
       <div className="comment-avatar">
-        {comment.user?.username?.charAt(0).toUpperCase() || "U"}
+
+        {avatar ? (
+          <img
+            src={avatar}
+            alt={username}
+          />
+        ) : (
+          avatarLetter
+        )}
+
       </div>
+
+      {/* ==================================================
+          COMMENT CONTENT
+          ================================================== */}
 
       <div className="comment-content">
 
-        <p className="comment-username">
-          {comment.user?.username || "Unknown user"}
-        </p>
+        <div className="comment-header">
 
+          <strong>
+            {username}
+          </strong>
+
+        </div>
+
+        {/* ==================================================
+            EDIT MODE
+            ================================================== */}
 
         {isEditing ? (
-          <div className="comment-edit-container">
+
+          <div className="comment-edit-form">
 
             <textarea
               value={editText}
-              onChange={(event) => {
-                setEditText(event.target.value);
-              }}
+              onChange={(event) =>
+                setEditText(
+                  event.target.value
+                )
+              }
+              rows="3"
             />
 
             <div className="comment-edit-actions">
 
-              <button onClick={handleUpdate}>
+              <button
+                type="button"
+                onClick={handleUpdate}
+              >
                 Save
               </button>
 
               <button
+                type="button"
                 onClick={() => {
-                  setEditText(comment.text);
+                  setEditText(
+                    comment.text
+                  );
+
                   setIsEditing(false);
+                  setError("");
                 }}
               >
                 Cancel
@@ -133,31 +219,51 @@ function CommentItem({
             </div>
 
           </div>
+
         ) : (
+
           <p className="comment-text">
             {comment.text}
           </p>
+
         )}
 
+        {/* ==================================================
+            OWNER ACTIONS
+            ================================================== */}
 
         {isOwner && !isEditing && (
+
           <div className="comment-actions">
 
             <button
+              type="button"
               onClick={() => {
+                setEditText(
+                  comment.text
+                );
+
                 setIsEditing(true);
+                setError("");
               }}
             >
               Edit
             </button>
 
-            <button onClick={handleDelete}>
+            <button
+              type="button"
+              onClick={handleDelete}
+            >
               Delete
             </button>
 
           </div>
+
         )}
 
+        {/* ==================================================
+            ERROR
+            ================================================== */}
 
         {error && (
           <p className="comment-error">
@@ -166,7 +272,6 @@ function CommentItem({
         )}
 
       </div>
-
     </article>
   );
 }

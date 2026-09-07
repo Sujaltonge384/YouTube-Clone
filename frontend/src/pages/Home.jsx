@@ -47,41 +47,53 @@ function Home() {
 
 
   // ======================================================
-  // FETCH VIDEOS
-  // ======================================================
+// FETCH VIDEOS
+// ======================================================
 
-  useEffect(() => {
+useEffect(() => {
 
-    const fetchVideos = async () => {
+  const fetchVideos = async () => {
 
-      try {
-        setLoading(true);
-        setError("");
+    try {
 
-        const response = await api.get("/videos");
+      setLoading(true);
+      setError("");
 
-        setVideos(response.data.videos);
+      // Get videos from backend
+      const response = await api.get("/videos");
 
-      } catch (error) {
+      const fetchedVideos =
+        response.data.videos || [];
 
-        console.error(
-          "Fetch videos error:",
-          error
-        );
+      // Randomize video order
+      const shuffledVideos = [
+        ...fetchedVideos,
+      ].sort(() => Math.random() - 0.5);
 
-        setError("Unable to load videos.");
+      // Store randomized videos
+      setVideos(shuffledVideos);
 
-      } finally {
+    } catch (error) {
 
-        setLoading(false);
+      console.error(
+        "Fetch videos error:",
+        error
+      );
 
-      }
-    };
+      setError(
+        "Unable to load videos."
+      );
 
+    } finally {
 
-    fetchVideos();
+      setLoading(false);
 
-  }, []);
+    }
+  };
+
+  fetchVideos();
+
+}, []);
 
 
   // ======================================================
@@ -94,12 +106,19 @@ function Home() {
     // TITLE SEARCH
     // ----------------------------------------------------
 
-    const title = video.title.toLowerCase();
+    // Convert video title to lowercase
+    // so search becomes case-insensitive.
+    const title =
+      video.title?.toLowerCase() || "";
 
-    const search = searchTerm
-      .trim()
-      .toLowerCase();
 
+    // Convert search text to lowercase
+    // and remove extra spaces.
+    const search =
+      searchTerm.trim().toLowerCase();
+
+
+    // Check whether title matches search text.
     const matchesSearch =
       !search || title.includes(search);
 
@@ -108,41 +127,71 @@ function Home() {
     // CATEGORY FILTER
     // ----------------------------------------------------
 
+    // "All" displays videos from every category.
+    //
+    // Otherwise, compare the video's category
+    // with the selected category.
     const matchesCategory =
       selectedCategory === "All" ||
       video.category?.toLowerCase() ===
         selectedCategory.toLowerCase();
 
 
-    // Video must match BOTH conditions.
+    // ----------------------------------------------------
+    // FINAL FILTER RESULT
+    // ----------------------------------------------------
+
+    // Video must match BOTH search and category.
     return matchesSearch && matchesCategory;
+
   });
+
+
+  // ======================================================
+  // LOADING STATE
+  // ======================================================
+
+  if (loading) {
+
+    return (
+      <div className="page-message">
+
+        <p>
+          Loading videos...
+        </p>
+
+      </div>
+    );
+
+  }
+
+
+  // ======================================================
+  // ERROR STATE
+  // ======================================================
+
+  if (error) {
+
+    return (
+      <div className="page-message">
+
+        <p>
+          {error}
+        </p>
+
+      </div>
+    );
+
+  }
 
 
   // ======================================================
   // RENDER
   // ======================================================
 
-  if (loading) {
-    return (
-      <div className="page-message">
-        <p>Loading videos...</p>
-      </div>
-    );
-  }
-
-
-  if (error) {
-    return (
-      <div className="page-message">
-        <p>{error}</p>
-      </div>
-    );
-  }
-
-
   return (
     <div className="home-page">
+
 
       {/* ==================================================
           PAGE TITLE
@@ -185,9 +234,13 @@ function Home() {
           ================================================== */}
 
       {searchTerm.trim() && (
+
         <p className="search-result-message">
+
           Search results for "{searchTerm}"
+
         </p>
+
       )}
 
 
@@ -196,9 +249,13 @@ function Home() {
           ================================================== */}
 
       {selectedCategory !== "All" && (
+
         <p className="category-result-message">
+
           Category: {selectedCategory}
+
         </p>
+
       )}
 
 

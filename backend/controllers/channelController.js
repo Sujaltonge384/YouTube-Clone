@@ -51,30 +51,30 @@ export const createChannel = async (req, res) => {
   }
 };
 
-export const getChannel = async (req, res) => {
-  // Handles GET /api/channels/:id.
-  //
-  // This route does not need authentication because
-  // anyone should be able to view a channel.
-
+export const getMyChannel = async (req, res) => {
   try {
-
-    // Check whether the channel ID is a valid MongoDB ObjectId
-if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-  return res.status(400).json({
-    message: "Invalid channel ID",
-  });
-}
-    const channel = await Channel.findById(req.params.id)
-      .populate("owner", "username email")
-      .populate("videos");
-
-    // findById() finds the requested channel.
-    //
-    // populate("owner") replaces the owner ObjectId
-    // with basic user information.
-    //
-    // populate("videos") loads the channel's videos.
+    const channel = await Channel.findOne({
+      owner: req.user.userId,
+    })
+      .populate(
+        "owner",
+        "username avatar"
+      )
+      .populate({
+        path: "videos",
+        populate: [
+          {
+            path: "channel",
+            select:
+              "channelName channelAvatar channelBanner",
+          },
+          {
+            path: "uploader",
+            select:
+              "username avatar",
+          },
+        ],
+      });
 
     if (!channel) {
       return res.status(404).json({
@@ -86,31 +86,53 @@ if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
       channel,
     });
   } catch (error) {
-    console.error("Get channel error:", error.message);
+    console.error(
+      "Get my channel error:",
+      error.message
+    );
 
     res.status(500).json({
-      message: "Server error while fetching channel",
+      message: "Server error",
     });
   }
-};
-
-// ======================================================
+};// ======================================================
 // GET CURRENT USER'S CHANNEL
 // ======================================================
 
-export const getMyChannel = async (req, res) => {
+export const getChannel = async (req, res) => {
   try {
-    // Find the channel owned by the logged-in user
-    const channel = await Channel.findOne({
-      owner: req.user.userId,
-    })
-      .populate("owner", "username email avatar")
-      .populate("videos");
+    const { id } = req.params;
 
-    // User has not created a channel yet
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({
+        message: "Invalid channel ID",
+      });
+    }
+
+    const channel = await Channel.findById(id)
+      .populate(
+        "owner",
+        "username avatar"
+      )
+      .populate({
+        path: "videos",
+        populate: [
+          {
+            path: "channel",
+            select:
+              "channelName channelAvatar channelBanner",
+          },
+          {
+            path: "uploader",
+            select:
+              "username avatar",
+          },
+        ],
+      });
+
     if (!channel) {
       return res.status(404).json({
-        message: "You do not have a channel yet",
+        message: "Channel not found",
       });
     }
 
@@ -118,11 +140,13 @@ export const getMyChannel = async (req, res) => {
       channel,
     });
   } catch (error) {
-    console.error("Get my channel error:", error.message);
+    console.error(
+      "Get channel error:",
+      error.message
+    );
 
     res.status(500).json({
-      message: "Server error while fetching your channel",
+      message: "Server error",
     });
   }
 };
-

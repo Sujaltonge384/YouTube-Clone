@@ -1,134 +1,421 @@
-import dotenv from "dotenv";
-import bcrypt from "bcryptjs";
+// ======================================================
+// USERS
+// ======================================================
 
-import connectDB from "../config/db.js";
-import User from "../models/User.js";
-import Channel from "../models/Channel.js";
-import Video from "../models/Video.js";
-import Comment from "../models/Comment.js";
+const users = [
+  {
+    username: "TechCreator",
+    email: "techcreator@example.com",
+    password: "password123",
+  },
+  {
+    username: "MusicHub",
+    email: "musichub@example.com",
+    password: "password123",
+  },
+  {
+    username: "GameZone",
+    email: "gamezone@example.com",
+    password: "password123",
+  },
+  {
+    username: "LearnWithMe",
+    email: "learnwithme@example.com",
+    password: "password123",
+  },
+  {
+    username: "CodeMaster",
+    email: "codemaster@example.com",
+    password: "password123",
+  },
+  {
+    username: "BeatStudio",
+    email: "beatstudio@example.com",
+    password: "password123",
+  },
+  {
+    username: "PixelGamer",
+    email: "pixelgamer@example.com",
+    password: "password123",
+  },
+  {
+    username: "StudyCentral",
+    email: "studycentral@example.com",
+    password: "password123",
+  },
+];
 
-import { users, channels, videos } from "./data.js";
 
-dotenv.config();
+// ======================================================
+// CHANNELS
+// ======================================================
 
-const seedDatabase = async () => {
-  try {
-    await connectDB();
+const channels = [
+  {
+    channelName: "Tech Creator",
+    description:
+      "Technology tutorials, programming and developer tips.",
+    youtubeHandle: "TechCreator",
+  },
+  {
+    channelName: "Music Hub",
+    description:
+      "Music, performances and entertainment.",
+    youtubeHandle: "MusicHub",
+  },
+  {
+    channelName: "Game Zone",
+    description:
+      "Gaming videos, reviews and gameplay.",
+    youtubeHandle: "GameZone",
+  },
+  {
+    channelName: "Learn With Me",
+    description:
+      "Educational content and useful learning resources.",
+    youtubeHandle: "LearnWithMe",
+  },
+  {
+    channelName: "Code Master",
+    description:
+      "Programming tutorials, coding projects and software development.",
+    youtubeHandle: "CodeMaster",
+  },
+  {
+    channelName: "Beat Studio",
+    description:
+      "Music, playlists, performances and relaxing sounds.",
+    youtubeHandle: "BeatStudio",
+  },
+  {
+    channelName: "Pixel Gamer",
+    description:
+      "Gaming news, gameplay, reviews and gaming highlights.",
+    youtubeHandle: "PixelGamer",
+  },
+  {
+    channelName: "Study Central",
+    description:
+      "Study tips, productivity, education and learning resources.",
+    youtubeHandle: "StudyCentral",
+  },
+];
 
-    console.log("Clearing existing data...");
 
-    await Comment.deleteMany({});
-    await Video.deleteMany({});
-    await Channel.deleteMany({});
-    await User.deleteMany({});
+// ======================================================
+// VIDEOS
+// ======================================================
 
-    console.log("Creating users...");
+const videos = [
 
-    const createdUsers = [];
+  // ------------------------------------------------------
+  // TECH CREATOR
+  // ------------------------------------------------------
 
-    for (const userData of users) {
-      const hashedPassword = await bcrypt.hash(
-        userData.password,
-        10
-      );
+  {
+    title: "Learn JavaScript in 20 Minutes",
+    description:
+      "A beginner-friendly introduction to JavaScript fundamentals.",
+    category: "Education",
+    videoId: "W6NZfCO5SIk",
+    channelIndex: 0,
+  },
 
-      const user = await User.create({
-        username: userData.username,
-        email: userData.email,
-        password: hashedPassword,
-      });
+  {
+    title: "React JS Full Course",
+    description:
+      "Learn React fundamentals and build modern React applications.",
+    category: "Technology",
+    videoId: "bMknfKXIFA8",
+    channelIndex: 0,
+  },
 
-      createdUsers.push(user);
-    }
+  {
+    title: "Node.js Backend Tutorial",
+    description:
+      "Learn how to build backend applications using Node.js.",
+    category: "Technology",
+    videoId: "Oe421EPjeBE",
+    channelIndex: 0,
+  },
 
-    console.log(`${createdUsers.length} users created.`);
+  {
+    title: "MongoDB Beginner Tutorial",
+    description:
+      "Learn MongoDB databases, collections and CRUD operations.",
+    category: "Education",
+    videoId: "c2M-rlkkT5o",
+    channelIndex: 0,
+  },
 
-    console.log("Creating channels...");
+  {
+    title: "HTML Full Course",
+    description:
+      "Learn HTML from the basics and build your first webpage.",
+    category: "Technology",
+    videoId: "pQN-pnXPaVg",
+    channelIndex: 0,
+  },
 
-    const createdChannels = [];
+  {
+    title: "CSS Full Course",
+    description:
+      "Learn CSS styling, layouts, Flexbox and Grid.",
+    category: "Technology",
+    videoId: "1Rs2ND1ryYc",
+    channelIndex: 0,
+  },
 
-    for (let i = 0; i < channels.length; i++) {
-      const channel = await Channel.create({
-        channelName: channels[i].channelName,
-        description: channels[i].description,
-        owner: createdUsers[i]._id,
-        subscribers: Math.floor(Math.random() * 50000) + 1000,
-      });
+  {
+    title: "Git and GitHub Tutorial",
+    description:
+      "Learn Git version control and GitHub workflows.",
+    category: "Technology",
+    videoId: "RGOj5yH7evk",
+    channelIndex: 0,
+  },
 
-      createdChannels.push(channel);
+  {
+    title: "Python Programming for Beginners",
+    description:
+      "Learn Python programming from the fundamentals.",
+    category: "Education",
+    videoId: "rfscVS0vtbw",
+    channelIndex: 0,
+  },
 
-      createdUsers[i].channels.push(channel._id);
-      await createdUsers[i].save();
-    }
 
-    console.log(`${createdChannels.length} channels created.`);
+  // ------------------------------------------------------
+  // MUSIC HUB
+  // ------------------------------------------------------
 
-    console.log("Creating videos...");
+  {
+    title: "Relaxing Music Mix",
+    description:
+      "Relaxing music for studying, working and concentration.",
+    category: "Music",
+    videoId: "5qap5aO4i9A",
+    channelIndex: 1,
+  },
 
-    const createdVideos = [];
+  {
+    title: "Best Guitar Performance",
+    description:
+      "Enjoy an amazing guitar performance.",
+    category: "Music",
+    videoId: "2Vv-BfVoq4g",
+    channelIndex: 1,
+  },
 
-    for (const videoData of videos) {
-      const video = await Video.create({
-        title: videoData.title,
-        description: videoData.description,
-        category: videoData.category,
-        videoUrl: videoData.videoUrl,
-        thumbnailUrl: videoData.thumbnailUrl,
-        channel: createdChannels[videoData.channelIndex]._id,
-        uploader: createdUsers[videoData.userIndex]._id,
-        views: Math.floor(Math.random() * 100000),
-        likes: Math.floor(Math.random() * 10000),
-        dislikes: Math.floor(Math.random() * 500),
-      });
+  {
+    title: "Top Music Collection",
+    description:
+      "A collection of popular music and entertainment.",
+    category: "Entertainment",
+    videoId: "kJQP7kiw5Fk",
+    channelIndex: 1,
+  },
 
-      createdVideos.push(video);
 
-      createdChannels[videoData.channelIndex].videos.push(
-        video._id
-      );
-    }
+  // ------------------------------------------------------
+  // GAME ZONE
+  // ------------------------------------------------------
 
-    for (const channel of createdChannels) {
-      await channel.save();
-    }
+  {
+    title: "Epic Gaming Gameplay",
+    description:
+      "An exciting gaming gameplay session.",
+    category: "Gaming",
+    videoId: "aqz-KE-bpKQ",
+    channelIndex: 2,
+  },
 
-    console.log(`${createdVideos.length} videos created.`);
+  {
+    title: "Gaming Setup Tour",
+    description:
+      "Check out a complete gaming setup.",
+    category: "Gaming",
+    videoId: "3AtDnEC4zak",
+    channelIndex: 2,
+  },
 
-    console.log("Creating comments...");
+  {
+    title: "Gaming Highlights",
+    description:
+      "Amazing gaming moments and highlights.",
+    category: "Gaming",
+    videoId: "mK9xZQJQY6M",
+    channelIndex: 2,
+  },
 
-    const comments = [
-      "Great video! Very helpful.",
-      "This was exactly what I was looking for.",
-      "Really useful explanation.",
-      "Thanks for sharing this!",
-      "Amazing content.",
-      "Very easy to understand.",
-      "I learned a lot from this video.",
-      "Looking forward to more videos.",
-      "Excellent tutorial!",
-      "Keep up the great work!",
-    ];
 
-    for (let i = 0; i < createdVideos.length; i++) {
-      for (let j = 0; j < 3; j++) {
-        await Comment.create({
-          text: comments[(i + j) % comments.length],
-          user: createdUsers[(i + j) % createdUsers.length]._id,
-          video: createdVideos[i]._id,
-        });
-      }
-    }
+  // ------------------------------------------------------
+  // LEARN WITH ME
+  // ------------------------------------------------------
 
-    console.log("Comments created.");
+  {
+    title: "How to Study Effectively",
+    description:
+      "Useful techniques for studying more effectively.",
+    category: "Education",
+    videoId: "IlU-zDU6aQ0",
+    channelIndex: 3,
+  },
 
-    console.log("Database seeded successfully!");
+  {
+    title: "Learn Faster With These Techniques",
+    description:
+      "Practical learning techniques to improve your study habits.",
+    category: "Education",
+    videoId: "UB1O30fR-EE",
+    channelIndex: 3,
+  },
 
-    process.exit(0);
-  } catch (error) {
-    console.error("Database seed failed:", error.message);
+  {
+    title: "Study Productivity Tips",
+    description:
+      "Simple productivity tips for students.",
+    category: "Education",
+    videoId: "arj7oStGLkU",
+    channelIndex: 3,
+  },
 
-    process.exit(1);
-  }
+
+  // ------------------------------------------------------
+  // CODE MASTER
+  // ------------------------------------------------------
+
+  {
+    title: "C++ Programming Tutorial",
+    description:
+      "Learn the fundamentals of C++ programming.",
+    category: "Technology",
+    videoId: "vLnPwxZdW4Y",
+    channelIndex: 4,
+  },
+
+  {
+    title: "SQL Tutorial for Beginners",
+    description:
+      "Learn SQL queries and database fundamentals.",
+    category: "Education",
+    videoId: "HXV3zeQKqGY",
+    channelIndex: 4,
+  },
+
+  {
+    title: "Express.js REST API Tutorial",
+    description:
+      "Build REST APIs using Express.js and Node.js.",
+    category: "Technology",
+    videoId: "LgdSEWfGIlc",
+    channelIndex: 4,
+  },
+
+
+  // ------------------------------------------------------
+  // BEAT STUDIO
+  // ------------------------------------------------------
+
+  {
+    title: "Relaxing Beats",
+    description:
+      "Relaxing beats for studying and working.",
+    category: "Music",
+    videoId: "DWcJFNfaw9c",
+    channelIndex: 5,
+  },
+
+  {
+    title: "Music for Concentration",
+    description:
+      "Background music for focus and concentration.",
+    category: "Music",
+    videoId: "sjkrrmBnpGE",
+    channelIndex: 5,
+  },
+
+  {
+    title: "Chill Music Mix",
+    description:
+      "A relaxing collection of chill music.",
+    category: "Music",
+    videoId: "7NOSDKb0HlU",
+    channelIndex: 5,
+  },
+
+
+  // ------------------------------------------------------
+  // PIXEL GAMER
+  // ------------------------------------------------------
+
+  {
+    title: "Minecraft Gameplay",
+    description:
+      "Minecraft gameplay and adventure.",
+    category: "Gaming",
+    videoId: "MmB9b5njVbA",
+    channelIndex: 6,
+  },
+
+  {
+    title: "Gaming Walkthrough",
+    description:
+      "Complete gaming walkthrough and gameplay.",
+    category: "Gaming",
+    videoId: "xvFZjo5PgG0",
+    channelIndex: 6,
+  },
+
+  {
+    title: "Best Gaming Moments",
+    description:
+      "A collection of exciting gaming moments.",
+    category: "Gaming",
+    videoId: "dQw4w9WgXcQ",
+    channelIndex: 6,
+  },
+
+
+  // ------------------------------------------------------
+  // STUDY CENTRAL
+  // ------------------------------------------------------
+
+  {
+    title: "Study Tips for Students",
+    description:
+      "Useful study strategies for students.",
+    category: "Education",
+    videoId: "TQMbvJNRpLE",
+    channelIndex: 7,
+  },
+
+  {
+    title: "Time Management for Students",
+    description:
+      "Learn practical time management techniques.",
+    category: "Education",
+    videoId: "oTugjssqOT0",
+    channelIndex: 7,
+  },
+
+  {
+    title: "How to Stay Focused",
+    description:
+      "Practical techniques to improve focus while studying.",
+    category: "Education",
+    videoId: "z6X5oEIg6Ak",
+    channelIndex: 7,
+  },
+];
+
+
+// ======================================================
+// EXPORT
+// ======================================================
+
+export {
+  users,
+  channels,
+  videos,
 };
-
-seedDatabase();

@@ -100,9 +100,15 @@ function Header({
 
           <>
             {/* Logged-in username */}
-            <span className="header-username">
-              {user.username}
-            </span>
+            <div className="header-user">
+  <div className="header-user-avatar">
+    {user.username?.charAt(0).toUpperCase()}
+  </div>
+
+  <span className="header-username">
+    {user.username}
+  </span>
+</div>
 
 
             {/* Go to user's channel */}
