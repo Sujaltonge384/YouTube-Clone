@@ -74,10 +74,14 @@ export const createVideo = async (req, res) => {
     await channel.save();
 
     // Return the newly created video
-    res.status(201).json({
-      message: "Video created successfully",
-      video,
-    });
+  const populatedVideo = await Video.findById(video._id)
+  .populate("channel", "channelName channelBanner")
+  .populate("uploader", "username avatar");
+
+res.status(201).json({
+  message: "Video created successfully",
+  video: populatedVideo,
+});
   } catch (error) {
     console.error("Create video error:", error.message);
 
