@@ -250,3 +250,71 @@ export const deleteVideo = async (req, res) => {
     });
   }
 };
+
+// ======================================================
+// LIKE VIDEO
+// ======================================================
+
+export const likeVideo = async (req, res) => {
+  try {
+    const video = await Video.findById(req.params.id);
+
+    if (!video) {
+      return res.status(404).json({
+        message: "Video not found",
+      });
+    }
+
+    video.likes += 1;
+
+    await video.save();
+
+    res.status(200).json({
+      message: "Video liked successfully",
+      likes: video.likes,
+      dislikes: video.dislikes,
+    });
+  } catch (error) {
+    console.error("Like video error:", error.message);
+
+    res.status(500).json({
+      message: "Server error while liking video",
+    });
+  }
+};
+
+
+// ======================================================
+// DISLIKE VIDEO
+// ======================================================
+
+export const dislikeVideo = async (req, res) => {
+  try {
+    const video = await Video.findById(req.params.id);
+
+    if (!video) {
+      return res.status(404).json({
+        message: "Video not found",
+      });
+    }
+
+    video.dislikes += 1;
+
+    await video.save();
+
+    res.status(200).json({
+      message: "Video disliked successfully",
+      likes: video.likes,
+      dislikes: video.dislikes,
+    });
+  } catch (error) {
+    console.error(
+      "Dislike video error:",
+      error.message
+    );
+
+    res.status(500).json({
+      message: "Server error while disliking video",
+    });
+  }
+};

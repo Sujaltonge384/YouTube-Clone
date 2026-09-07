@@ -49,6 +49,76 @@ function VideoPlayer() {
 
 
   // ======================================================
+// LIKE VIDEO
+// ======================================================
+
+const handleLike = async () => {
+
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+    alert("Please sign in to like this video.");
+    return;
+  }
+
+  try {
+
+    const response = await api.post(
+      `/videos/${video._id}/like`
+    );
+
+    setVideo((previousVideo) => ({
+      ...previousVideo,
+      likes: response.data.likes,
+      dislikes: response.data.dislikes,
+    }));
+
+  } catch (error) {
+
+    console.error(
+      "Like video error:",
+      error
+    );
+
+  }
+};
+
+// ======================================================
+// DISLIKE VIDEO
+// ======================================================
+
+const handleDislike = async () => {
+
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+    alert("Please sign in to dislike this video.");
+    return;
+  }
+
+  try {
+
+    const response = await api.post(
+      `/videos/${video._id}/dislike`
+    );
+
+    setVideo((previousVideo) => ({
+      ...previousVideo,
+      likes: response.data.likes,
+      dislikes: response.data.dislikes,
+    }));
+
+  } catch (error) {
+
+    console.error(
+      "Dislike video error:",
+      error
+    );
+
+  }
+};
+
+  // ======================================================
   // LOADING
   // ======================================================
 
@@ -139,15 +209,22 @@ function VideoPlayer() {
 
           <div className="video-actions">
 
-            <button className="video-action-button">
-              👍 {video.likes || 0}
-            </button>
+  <button
+    className="video-action-button"
+    onClick={handleLike}
+  >
+    👍 {video.likes || 0}
+  </button>
 
-            <button className="video-action-button">
-              👎 {video.dislikes || 0}
-            </button>
 
-          </div>
+  <button
+    className="video-action-button"
+    onClick={handleDislike}
+  >
+    👎 {video.dislikes || 0}
+  </button>
+
+</div>
 
         </div>
 

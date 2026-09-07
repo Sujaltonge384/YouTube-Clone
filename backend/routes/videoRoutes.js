@@ -6,40 +6,41 @@ import {
   getVideoById,
   updateVideo,
   deleteVideo,
+  likeVideo,
+  dislikeVideo,
 } from "../controllers/videoController.js";
 
 import { protect } from "../middleware/authMiddleware.js";
 
+
 const router = express.Router();
 
 
-// ======================================================
-// CREATE
-// ======================================================
-
+// Create video
 router.post("/", protect, createVideo);
 
 
-// ======================================================
-// READ
-// ======================================================
-
+// Get all videos
 router.get("/", getVideos);
 
+
+// Get single video
 router.get("/:id", getVideoById);
 
 
-// ======================================================
-// UPDATE
-// ======================================================
+// Like video
+router.post("/:id/like", protect, likeVideo);
 
+
+// Dislike video
+router.post("/:id/dislike", protect, dislikeVideo);
+
+
+// Update video
 router.put("/:id", protect, updateVideo);
 
 
-// ======================================================
-// DELETE
-// ======================================================
-
+// Delete video
 router.delete("/:id", protect, deleteVideo);
 
 
