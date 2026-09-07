@@ -3,7 +3,12 @@ import { useState } from "react";
 import api from "../services/api";
 
 
-function CommentItem({ comment, currentUser, onCommentUpdated, onCommentDeleted }) {
+function CommentItem({
+  comment,
+  currentUser,
+  onCommentUpdated,
+  onCommentDeleted,
+}) {
 
   // Controls whether this comment is currently being edited
   const [isEditing, setIsEditing] = useState(false);
@@ -23,17 +28,10 @@ function CommentItem({ comment, currentUser, onCommentUpdated, onCommentDeleted 
     try {
       setError("");
 
-      const response = await api.put(
-        `/comments/${comment._id}`,
-        {
-          text: editText,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
+      // JWT is automatically added by the Axios interceptor
+      const response = await api.put(`/comments/${comment._id}`, {
+        text: editText,
+      });
 
       // Send updated comment back to parent component
       onCommentUpdated(response.data.comment);
@@ -67,14 +65,8 @@ function CommentItem({ comment, currentUser, onCommentUpdated, onCommentDeleted 
     try {
       setError("");
 
-      await api.delete(
-        `/comments/${comment._id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
+      // JWT is automatically added by the Axios interceptor
+      await api.delete(`/comments/${comment._id}`);
 
       // Tell parent that this comment was deleted
       onCommentDeleted(comment._id);

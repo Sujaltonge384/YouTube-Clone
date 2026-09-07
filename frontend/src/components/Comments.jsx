@@ -6,18 +6,26 @@ import CommentItem from "./CommentItem";
 
 function Comments({ videoId }) {
 
-  // All comments for this video
+  // ======================================================
+  // STATE
+  // ======================================================
+
+  // Stores all comments for this video
   const [comments, setComments] = useState([]);
 
-  // New comment text
+  // Stores the text of a new comment
   const [text, setText] = useState("");
 
-  // Loading state
+  // Controls the loading state while comments are being fetched
   const [loading, setLoading] = useState(true);
 
-  // Error state
+  // Stores any error message
   const [error, setError] = useState("");
 
+
+  // ======================================================
+  // CURRENT USER
+  // ======================================================
 
   // Get the logged-in user from localStorage
   const storedUser = localStorage.getItem("user");
@@ -38,6 +46,7 @@ function Comments({ videoId }) {
         setLoading(true);
         setError("");
 
+        // Get all comments belonging to this video
         const response = await api.get(
           `/comments/video/${videoId}`
         );
@@ -47,9 +56,8 @@ function Comments({ videoId }) {
       } catch (error) {
         console.error("Fetch comments error:", error);
 
-        setError(
-          "Unable to load comments."
-        );
+        setError("Unable to load comments.");
+
       } finally {
         setLoading(false);
       }
@@ -67,7 +75,7 @@ function Comments({ videoId }) {
   const handleAddComment = async (event) => {
     event.preventDefault();
 
-    // Prevent empty comments
+    // Do not allow empty comments
     if (!text.trim()) {
       return;
     }
@@ -81,26 +89,21 @@ function Comments({ videoId }) {
     try {
       setError("");
 
-      const response = await api.post(
-        "/comments",
-        {
-          text,
-          videoId,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
+      // The Axios interceptor automatically
+      // adds the JWT Authorization header.
+      const response = await api.post("/comments", {
+        text,
+        videoId,
+      });
 
-      // Add the newly created comment to the top
+      // Add the newly created comment
+      // to the beginning of the comments list.
       setComments((previousComments) => [
         response.data.comment,
         ...previousComments,
       ]);
 
-      // Clear input
+      // Clear the comment input
       setText("");
 
     } catch (error) {
@@ -115,10 +118,11 @@ function Comments({ videoId }) {
 
 
   // ======================================================
-  // UPDATE COMMENT IN LOCAL STATE
+  // UPDATE COMMENT
   // ======================================================
 
   const handleCommentUpdated = (updatedComment) => {
+
     setComments((previousComments) =>
       previousComments.map((comment) =>
         comment._id === updatedComment._id
@@ -130,10 +134,11 @@ function Comments({ videoId }) {
 
 
   // ======================================================
-  // REMOVE COMMENT FROM LOCAL STATE
+  // DELETE COMMENT
   // ======================================================
 
   const handleCommentDeleted = (commentId) => {
+
     setComments((previousComments) =>
       previousComments.filter(
         (comment) => comment._id !== commentId
@@ -142,32 +147,41 @@ function Comments({ videoId }) {
   };
 
 
+  // ======================================================
+  // RENDER
+  // ======================================================
+
   return (
     <section className="comments-section">
 
+      {/* Number of comments */}
       <h2>
         {comments.length} Comments
       </h2>
 
 
       {/* ==================================================
-          ADD COMMENT
+          ADD COMMENT FORM
           ================================================== */}
 
       {currentUser ? (
+
         <form
           className="comment-form"
           onSubmit={handleAddComment}
         >
 
+          {/* User avatar */}
           <div className="comment-avatar">
             {currentUser.username
               ?.charAt(0)
               .toUpperCase() || "U"}
           </div>
 
+
           <div className="comment-form-content">
 
+            {/* Comment input */}
             <textarea
               value={text}
               onChange={(event) => {
@@ -177,6 +191,8 @@ function Comments({ videoId }) {
               rows="3"
             />
 
+
+            {/* Submit button */}
             <button
               type="submit"
               disabled={!text.trim()}
@@ -187,12 +203,20 @@ function Comments({ videoId }) {
           </div>
 
         </form>
+
       ) : (
+
+        // Message shown to logged-out users
         <p className="comment-login-message">
           Sign in to leave a comment.
         </p>
+
       )}
 
+
+      {/* ==================================================
+          ERROR MESSAGE
+          ================================================== */}
 
       {error && (
         <p className="comment-error">
@@ -206,13 +230,24 @@ function Comments({ videoId }) {
           ================================================== */}
 
       {loading ? (
+
+        // Loading state
         <p>Loading comments...</p>
+
       ) : comments.length === 0 ? (
-        <p>No comments yet. Be the first to comment!</p>
+
+        // Empty state
+        <p>
+          No comments yet. Be the first to comment!
+        </p>
+
       ) : (
+
+        // Display all comments
         <div className="comments-list">
 
           {comments.map((comment) => (
+
             <CommentItem
               key={comment._id}
               comment={comment}
@@ -220,13 +255,16 @@ function Comments({ videoId }) {
               onCommentUpdated={handleCommentUpdated}
               onCommentDeleted={handleCommentDeleted}
             />
+
           ))}
 
         </div>
+
       )}
 
     </section>
   );
 }
+
 
 export default Comments;

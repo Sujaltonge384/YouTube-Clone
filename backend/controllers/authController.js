@@ -8,11 +8,6 @@ import jwt from "jsonwebtoken";
 import User from "../models/User.js";
 // Imports the User model so we can find the user in MongoDB.   
 
-import bcrypt from "bcryptjs";
-// bcrypt is used to securely hash passwords.
-
-import User from "../models/User.js";
-// Imports our User model so we can create and search users.
 
 export const registerUser = async (req, res) => {
   // This function handles POST /api/auth/register.
