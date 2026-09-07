@@ -1,13 +1,15 @@
 import { useNavigate } from "react-router-dom";
-
 import { useAuth } from "../context/AuthContext";
 
 
-function Header({ onMenuClick }) {
+function Header({
+  onMenuClick,
+  searchTerm,
+  setSearchTerm,
+}) {
+
   const navigate = useNavigate();
 
-  // Get authentication information
-  // from our AuthContext
   const { user, logout } = useAuth();
 
 
@@ -17,9 +19,16 @@ function Header({ onMenuClick }) {
 
   const handleLogout = () => {
     logout();
-
-    // Return the user to Home after logout
     navigate("/");
+  };
+
+
+  // ======================================================
+  // SEARCH
+  // ======================================================
+
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
   };
 
 
@@ -27,7 +36,7 @@ function Header({ onMenuClick }) {
     <header className="header">
 
       {/* ==================================================
-          HAMBURGER MENU
+          MENU BUTTON
           ================================================== */}
 
       <button
@@ -65,10 +74,15 @@ function Header({ onMenuClick }) {
 
         <input
           type="text"
+          value={searchTerm}
+          onChange={handleSearchChange}
           placeholder="Search"
         />
 
-        <button aria-label="Search">
+        <button
+          type="button"
+          aria-label="Search"
+        >
           🔍
         </button>
 
@@ -76,16 +90,12 @@ function Header({ onMenuClick }) {
 
 
       {/* ==================================================
-          HEADER ACTIONS
+          AUTH ACTIONS
           ================================================== */}
 
       <div className="header-actions">
 
         {user ? (
-
-          // =================================================
-          // LOGGED-IN USER
-          // =================================================
 
           <>
             <span className="header-username">
@@ -102,10 +112,6 @@ function Header({ onMenuClick }) {
 
         ) : (
 
-          // =================================================
-          // LOGGED-OUT USER
-          // =================================================
-
           <button
             className="sign-in-button"
             onClick={() => navigate("/login")}
@@ -120,5 +126,6 @@ function Header({ onMenuClick }) {
     </header>
   );
 }
+
 
 export default Header;

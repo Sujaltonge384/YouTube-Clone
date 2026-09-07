@@ -7,11 +7,17 @@ import Sidebar from "./Sidebar";
 
 function Layout() {
 
-  // Controls whether the sidebar is open
+  // Controls whether the sidebar is visible
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
+  // Stores the text entered into the search box
+  const [searchTerm, setSearchTerm] = useState("");
 
-  // Toggle sidebar
+
+  // ======================================================
+  // TOGGLE SIDEBAR
+  // ======================================================
+
   const handleMenuClick = () => {
     setIsSidebarOpen((previousState) => !previousState);
   };
@@ -20,21 +26,19 @@ function Layout() {
   return (
     <div className="app-layout">
 
-      {/* Header */}
+      {/* Header receives the search state */}
       <Header
         onMenuClick={handleMenuClick}
+        searchTerm={searchTerm}
+        setSearchTerm={setSearchTerm}
       />
 
 
       <div className="page-layout">
 
-        {/* Sidebar */}
-        <Sidebar
-          isOpen={isSidebarOpen}
-        />
+        <Sidebar isOpen={isSidebarOpen} />
 
 
-        {/* Current route/page */}
         <main
           className={`main-content ${
             isSidebarOpen
@@ -43,9 +47,12 @@ function Layout() {
           }`}
         >
 
-          {/* React Router renders Home,
-              VideoPlayer, Channel, etc. here */}
-          <Outlet />
+          {/* Pass search term to the current page */}
+          <Outlet
+            context={{
+              searchTerm,
+            }}
+          />
 
         </main>
 
@@ -54,5 +61,6 @@ function Layout() {
     </div>
   );
 }
+
 
 export default Layout;

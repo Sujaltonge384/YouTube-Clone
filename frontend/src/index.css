@@ -622,3 +622,49 @@ a {
   min-height: 100vh;
   background: #fff;
 }
+
+/* ======================================================
+   CATEGORY FILTERS
+   ====================================================== */
+
+.category-filters {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.category-button {
+  border: none;
+  border-radius: 8px;
+  padding: 10px 16px;
+  background: #f2f2f2;
+  color: #222;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color 0.2s ease;
+}
+
+.category-button:hover {
+  background: #e5e5e5;
+}
+
+.category-button.active {
+  background: #222;
+  color: #fff;
+}
+
+
+/* ======================================================
+   FILTER RESULT MESSAGES
+   ====================================================== */
+
+.search-result-message,
+.category-result-message {
+  margin-bottom: 16px;
+  color: #606060;
+  font-size: 14px;
+}
